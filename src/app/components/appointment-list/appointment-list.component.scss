@@ -1,0 +1,21 @@
+.appointment-table {
+  width: 100%;
+  margin-top: 60px;
+}
+
+.appointment-table mat-header-cell,
+.appointment-table mat-cell {
+  padding: 8px 16px;
+}
+
+.appointment-table th.mat-header-cell {
+  font-weight: bold;
+}
+
+.appointment-table td.mat-cell {
+  white-space: nowrap;
+}
+
+.appointment-table td.mat-cell:last-child {
+  text-align: end;
+}

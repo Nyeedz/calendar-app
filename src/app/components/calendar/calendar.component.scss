@@ -1,0 +1,23 @@
+/* calendar.component.scss */
+.calendar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  .day {
+    width: calc(100% / 7);
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+  }
+
+  .appointment {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+}
