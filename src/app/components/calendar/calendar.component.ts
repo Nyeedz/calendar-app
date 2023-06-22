@@ -1,22 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Appointment } from 'src/app/models/appointment.model';
+import { AppointmentService } from 'src/app/services/appointment.service';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   appointments: Appointment[] = [];
 
-  addAppointment(appointment: Appointment) {
-    this.appointments.push(appointment);
+  constructor(private appointmentService: AppointmentService) {}
+
+  ngOnInit() {
+    this.appointments = this.appointmentService.getAppointments();
   }
 
   deleteAppointment(appointment: Appointment) {
-    const index = this.appointments.indexOf(appointment);
-    if (index > -1) {
-      this.appointments.splice(index, 1);
-    }
+    this.appointmentService.deleteAppointment(appointment);
   }
 }

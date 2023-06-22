@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Appointment } from 'src/app/models/appointment.model';
 import { AppointmentService } from 'src/app/services/appointment.service';
@@ -9,9 +9,14 @@ import { AppointmentService } from 'src/app/services/appointment.service';
   styleUrls: ['./appointment-list.component.scss'],
 })
 export class AppointmentListComponent implements OnInit {
-  @Input() appointments: Appointment[] = [];
   dataSource!: MatTableDataSource<Appointment>;
-  displayedColumns: string[] = ['startDate', 'title', 'actions'];
+  displayedColumns: string[] = [
+    'title',
+    'description',
+    'startDate',
+    'endDate',
+    'actions',
+  ];
 
   constructor(private appointmentService: AppointmentService) {}
 

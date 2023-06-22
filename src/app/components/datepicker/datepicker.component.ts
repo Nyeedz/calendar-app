@@ -21,7 +21,9 @@ export class DatepickerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.appointments = this.appointmentService.getAppointments();
+    this.appointmentService.appointments$.subscribe((appointments) => {
+      this.appointments = appointments;
+    });
   }
 
   onDateSelect(date: Date) {
@@ -40,7 +42,7 @@ export class DatepickerComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(() => {
-        this.appointments = this.appointmentService.getAppointments();
+        // Appointments will be updated automatically through the appointmentService
       });
     }
   }

@@ -22,12 +22,14 @@ export class AppointmentService {
 
   addAppointment(appointment: Appointment): void {
     this.appointments.push(appointment);
+    this.updateAppointments();
   }
 
   deleteAppointment(appointment: Appointment): void {
     const index = this.appointments.findIndex((a) => a.id === appointment.id);
     if (index !== -1) {
       this.appointments.splice(index, 1);
+      this.updateAppointments();
     }
   }
 }
