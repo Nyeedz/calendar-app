@@ -1,0 +1,58 @@
+.appointment-list {
+  display: flex;
+  flex-direction: column;
+
+  .date-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.hour-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+
+  .hour {
+    flex: 0 0 94.5%;
+    padding: 10px;
+    border: 0.5px #ededed double;
+
+    .hour-label {
+      margin-bottom: 5px;
+      padding: 5px;
+    }
+
+    .appointments {
+      min-height: 50px;
+
+      .appointment {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        padding: 5px;
+        border-radius: 4px;
+        background-color: #91eee8;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+
+        .appointment-details {
+          flex-grow: 1;
+        }
+
+        .appointment-title {
+          font-weight: bold;
+        }
+
+        .appointment-time {
+          font-size: 12px;
+          color: #888;
+        }
+
+        button {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

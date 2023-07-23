@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { AppointmentService } from '../../services/appointment.service';
 import { Appointment } from 'src/app/models/appointment.model';
+import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'app-appointment-modal',
@@ -15,7 +14,6 @@ export class AppointmentModalComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private appointmentService: AppointmentService,
     public dialogRef: MatDialogRef<AppointmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -32,14 +30,14 @@ export class AppointmentModalComponent {
     }
 
     const appointmentData: Appointment = {
-      id: new Date().getTime(), // Generate a unique ID for the appointment
+      id: new Date().getTime(),
       title: this.appointmentForm.value.title,
       description: this.appointmentForm.value.description,
-      startDate: this.data.selectedDate,
-      endDate: null, // Set the end date based on your requirements
+      startDate: this.data.selectedDateTime,
     };
 
     this.appointmentService.addAppointment(appointmentData);
+    this.appointmentService.updateSelectedDate(this.data.selectedDateTime);
 
     this.appointmentForm.reset();
     this.dialogRef.close();

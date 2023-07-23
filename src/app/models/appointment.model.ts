@@ -3,5 +3,5 @@ export interface Appointment {
   title: string;
   description: string;
   startDate: Date;
-  endDate: Date | null;
+  day?: string | null;
 }

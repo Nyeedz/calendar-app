@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { AppointmentModalComponent } from '../appointment-modal/appointment-modal.component';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 import { AppointmentService } from '../../services/appointment.service';
-import { Appointment } from 'src/app/models/appointment.model';
+import { AppointmentListComponent } from '../appointment-list/appointment-list.component';
+import { AppointmentModalComponent } from '../appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-datepicker',
@@ -12,7 +14,15 @@ import { Appointment } from 'src/app/models/appointment.model';
 })
 export class DatepickerComponent implements OnInit {
   selectedDate: Date | null = null;
-  appointments: Appointment[] = [];
+  selectedTime: number | null = null;
+  hours: string[] = Array.from({ length: 24 }, (_, i) => {
+    const hour = i % 12 || 12;
+    const period = i < 12 ? 'am' : 'pm';
+    return `${hour}:00 ${period}`;
+  });
+
+  @ViewChild(AppointmentListComponent)
+  appointmentListComponent!: AppointmentListComponent;
 
   constructor(
     private dialog: MatDialog,
@@ -21,28 +31,42 @@ export class DatepickerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.appointmentService.appointments$.subscribe((appointments) => {
-      this.appointments = appointments;
+    this.appointmentService.selectedDate$.subscribe((date) => {
+      this.selectedDate = date;
     });
   }
 
-  onDateSelect(date: Date) {
-    this.selectedDate = date;
+  onDateSelect(event: MatDatepickerInputEvent<Date>) {
+    const selectedDate = event.value;
+    if (selectedDate) {
+      this.selectedDate = selectedDate;
+      this.appointmentService.updateSelectedDate(selectedDate);
+    }
+  }
+
+  onTimeSelect(event: MatSelectChange) {
+    this.selectedTime = event.value;
   }
 
   openAppointmentModal() {
-    if (this.selectedDate) {
+    if (this.selectedDate && this.selectedTime !== null) {
       const formattedDate = this.dateAdapter.format(
         this.selectedDate,
         'dddd, MMMM d hh:mmA'
       );
+      const selectedDateTime = new Date(this.selectedDate);
+      selectedDateTime.setHours(this.selectedTime);
       const dialogRef = this.dialog.open(AppointmentModalComponent, {
-        data: { selectedDate: formattedDate },
+        data: {
+          selectedDate: formattedDate,
+          selectedDateTime: selectedDateTime,
+        },
         width: '500px',
       });
 
       dialogRef.afterClosed().subscribe(() => {
-        // Appointments will be updated automatically through the appointmentService
+        this.selectedDate = null;
+        this.selectedTime = null;
       });
     }
   }
